@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabinet of Bizarre Business</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,600;1,9..144,900&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --ink:#131309;
+  --paper:#EFE6D2;
+  --paper-dim:#c9bfa8;
+  --card:#1c1c11;
+  --card-edge:#332f1c;
+  --gold:#E3AE3C;
+  --stamp-red:#B5433A;
+  --stamp-green:#5E8047;
+  --line:#4a4530;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+
+body{
+  background:
+    radial-gradient(circle at 15% 10%, #1c1c12 0%, var(--ink) 55%),
+    var(--ink);
+  color:var(--paper);
+  font-family:'Space Grotesk', sans-serif;
+  min-height:100vh;
+  padding:32px 16px 64px;
+  display:flex;
+  justify-content:center;
+}
+
+.wrap{
+  width:100%;
+  max-width:640px;
+}
+
+/* ---------- header / ledger strip ---------- */
+.ledger-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  border-bottom:1px solid var(--line);
+  padding-bottom:10px;
+  margin-bottom:28px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--paper-dim);
+}
+.ledger-head b{color:var(--gold); font-weight:500;}
+
+/* ---------- title block ---------- */
+.title-block{
+  text-align:center;
+  margin-bottom:36px;
+}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:14px;
+}
+h1.display{
+  font-family:'Fraunces', serif;
+  font-weight:900;
+  font-style:italic;
+  font-size:44px;
+  line-height:1.05;
+  margin:0 0 14px;
+  letter-spacing:-0.01em;
+}
+h1.display .plain{ font-style:normal; }
+.subcopy{
+  font-size:14px;
+  color:var(--paper-dim);
+  max-width:440px;
+  margin:0 auto;
+  line-height:1.55;
+}
+
+/* ---------- card ---------- */
+.card{
+  background:var(--card);
+  border:1px solid var(--card-edge);
+  border-radius:2px;
+  padding:30px 26px;
+  position:relative;
+  box-shadow:0 24px 48px -24px rgba(0,0,0,0.6);
+}
+.card::before{
+  content:"";
+  position:absolute; inset:6px;
+  border:1px solid #2a2717;
+  pointer-events:none;
+}
+
+/* ---------- name entry ---------- */
+.field-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--paper-dim);
+  display:block;
+  margin-bottom:10px;
+}
+input[type=text]{
+  width:100%;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--line);
+  color:var(--paper);
+  font-family:'Fraunces', serif;
+  font-size:24px;
+  font-style:italic;
+  padding:8px 2px 12px;
+  outline:none;
+}
+input[type=text]::placeholder{ color:#5c573f; font-style:italic; }
+input[type=text]:focus{ border-bottom-color:var(--gold); }
+
+.btn{
+  appearance:none;
+  border:1px solid var(--gold);
+  background:transparent;
+  color:var(--gold);
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  padding:13px 22px;
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+  width:100%;
+  margin-top:22px;
+}
+.btn:hover{ background:var(--gold); color:var(--ink); }
+.btn:disabled{ opacity:0.35; cursor:not-allowed; }
+.btn:disabled:hover{ background:transparent; color:var(--gold); }
+.btn-ghost{
+  border-color:var(--line);
+  color:var(--paper-dim);
+}
+.btn-ghost:hover{ background:var(--line); color:var(--paper); }
+
+/* ---------- specimen tag ---------- */
+.specimen-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--paper-dim);
+}
+.stopwatch{ color:var(--gold); }
+
+.progress-track{
+  height:2px;
+  background:var(--line);
+  margin-bottom:26px;
+  position:relative;
+}
+.progress-fill{
+  position:absolute; left:0; top:0; height:100%;
+  background:var(--gold);
+  transition:width .35s ease;
+}
+
+.question-text{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:21px;
+  line-height:1.35;
+  margin:0 0 24px;
+}
+
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.option{
+  text-align:left;
+  background:transparent;
+  border:1px solid var(--line);
+  color:var(--paper);
+  font-family:'Space Grotesk', sans-serif;
+  font-size:14.5px;
+  line-height:1.4;
+  padding:14px 16px;
+  cursor:pointer;
+  display:flex;
+  gap:12px;
+  transition:border-color .15s ease, background .15s ease;
+}
+.option:hover:not(:disabled){ border-color:var(--gold); }
+.option:disabled{ cursor:default; }
+.opt-letter{
+  font-family:'IBM Plex Mono', monospace;
+  color:var(--gold);
+  flex-shrink:0;
+}
+.option.correct{
+  border-color:var(--stamp-green);
+  background:rgba(94,128,71,0.14);
+}
+.option.correct .opt-letter{ color:var(--stamp-green); }
+.option.wrong{
+  border-color:var(--stamp-red);
+  background:rgba(181,67,58,0.14);
+}
+.option.wrong .opt-letter{ color:var(--stamp-red); }
+.option.dim{ opacity:0.4; }
+
+/* ---------- stamp ---------- */
+.stamp-zone{
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:22px;
+}
+.stamp{
+  font-family:'Fraunces', serif;
+  font-weight:900;
+  font-style:italic;
+  font-size:26px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  border:3px double currentColor;
+  padding:8px 22px;
+  transform:rotate(-6deg) scale(0.4);
+  opacity:0;
+  animation:stampin .35s cubic-bezier(.2,1.6,.4,1) forwards;
+}
+.stamp.hit{ color:var(--stamp-green); }
+.stamp.miss{ color:var(--stamp-red); }
+@keyframes stampin{
+  0%{ transform:rotate(-6deg) scale(2.2); opacity:0; }
+  60%{ opacity:1; }
+  100%{ transform:rotate(-6deg) scale(1); opacity:1; }
+}
+
+.fact{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+  line-height:1.6;
+  margin-top:16px;
+  border-left:2px solid var(--line);
+  padding-left:12px;
+}
+
+/* ---------- results ---------- */
+.score-hero{
+  text-align:center;
+  padding:6px 0 28px;
+}
+.score-num{
+  font-family:'Fraunces', serif;
+  font-weight:900;
+  font-style:italic;
+  font-size:64px;
+  line-height:1;
+  color:var(--gold);
+}
+.score-sub{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--paper-dim);
+  margin-top:10px;
+}
+.stat-row{
+  display:flex;
+  justify-content:center;
+  gap:32px;
+  margin-top:18px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+}
+.stat-row b{ display:block; color:var(--paper); font-size:16px; margin-bottom:2px; }
+
+/* ---------- ledger / scoreboard ---------- */
+.section-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin:34px 0 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-label::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+
+.board-row{
+  display:grid;
+  grid-template-columns:34px 1fr auto auto;
+  gap:12px;
+  align-items:center;
+  padding:11px 4px;
+  border-bottom:1px solid var(--card-edge);
+  font-size:13.5px;
+}
+.board-row.me{
+  background:rgba(227,174,60,0.08);
+  border-bottom-color:var(--gold);
+}
+.board-rank{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-weight:700;
+  color:var(--paper-dim);
+}
+.board-row.me .board-rank{ color:var(--gold); }
+.board-name{
+  font-weight:500;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.board-acc{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  color:var(--paper-dim);
+}
+.board-time{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  color:var(--paper-dim);
+  min-width:52px;
+  text-align:right;
+}
+.board-empty{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+  text-align:center;
+  padding:20px 0;
+}
+
+.loading-row{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+  text-align:center;
+  padding:12px 0;
+}
+
+.footer-note{
+  text-align:center;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10.5px;
+  color:#54503a;
+  margin-top:28px;
+  letter-spacing:0.05em;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="ledger-head">
+    <span>Est. curiosities catalog</span>
+    <span><b>Vol. VII</b> — Commerce Oddities</span>
+  </div>
+
+  <div class="title-block">
+    <div class="eyebrow">A Field Guide To</div>
+    <h1 class="display">Bizarre <span class="plain">Business,</span><br>Verified Real</h1>
+    <p class="subcopy" id="subcopy">Ten specimens. Some are hoaxes dressed as companies, one is quietly the truth. Tell fact from fiction — the clock is running.</p>
+  </div>
+
+  <div class="card" id="card"></div>
+
+  <div class="footer-note">Every visitor who finishes is added to the ledger below, in order of accuracy.</div>
+</div>
+
+<script>
+const QUESTIONS = [
+{q:"Which of these bizarre businesses is a real, surviving company that makes millions?",
+ opts:["Rent-A-Goat: Renting herds of hundreds of goats to clear wildfire brush and noxious weeds",
+       "Napflix: Renting roadside sensory blackout pods for 15-minute power naps",
+       "PigeonExpress: Ultra-secure physical data transfer using trained homing pigeons",
+       "PlantUber: On-demand moving service solely for exotic houseplant collections"],
+ correct:0, fact:"Rent-A-Goat firms clear brush for cities, utilities and homeowners across the US — goats over herbicide."},
+{q:'Which everyday tech giant originally launched as a video dating service with the slogan "Tune in, Hook up"?',
+ opts:["Pinterest","YouTube","Twitch","Vimeo"],
+ correct:1, fact:"YouTube's earliest pitch, in 2005, was a video-dating site before it pivoted to general video sharing."},
+{q:"Which of these absurd websites actually made over $1,000,000 in under five months?",
+ opts:["A site charging $1 to watch a live stream of drying paint",
+       "A blank 1,000 × 1,000 pixel web page selling ad space for $1 per pixel",
+       "A website that charged $0.99 every time you clicked a red buzzer button",
+       "A digital garden where users paid $5/month to water a virtual pixel plant"],
+ correct:1, fact:"The Million Dollar Homepage (2005) sold a million pixels at $1 each and hit its goal in under five months."},
+{q:"Which odd product pitched on Shark Tank actually became a successful, ongoing business?",
+ opts:["Potato Parcel: Mailing personalized messages written directly on a raw, uncooked potato",
+       "BottleAir: Canned air collected from famous historic landmarks",
+       "PrankScrew: A monthly subscription sending you one random, unlabeled screw",
+       "ApologyMime: Hiring a professional mime to deliver apologies in person"],
+ correct:0, fact:"Potato Parcel is a real, ongoing novelty-gift business that still ships messages written on potatoes."},
+{q:"Which major workplace communication tool exists only because a fantasy online multiplayer game failed?",
+ opts:["Zoom","Slack","Dropbox","Asana"],
+ correct:1, fact:"Slack began as the internal chat tool built for Glitch, an online game that shut down in 2012."},
+{q:"Which of these ridiculously simple Kickstarter campaigns raised over $55,000 from 7,000 people?",
+ opts:['"Raising $10 to buy rubber ducks for my neighbor\'s car"',
+       '"I just want to make a potato salad"',
+       '"Funding a tiny underwater treadmill for my pet goldfish"',
+       '"Building a life-sized statue of Nicolas Cage out of cheese"'],
+ correct:1, fact:'"Potato Salad" asked for $10 in 2014 and closed at over $55,000 from more than 7,000 backers.'},
+{q:"Which luxury dining concept is a real, operational high-end business?",
+ opts:["A restaurant serving multi-course French tasting menus exclusively to dogs",
+       "A restaurant where people eat in total pitch darkness while wearing noise-canceling headphones",
+       "A dining club that only serves ingredients retrieved from outer space missions",
+       "A café that rebrands baby food purées as gourmet adult meals"],
+ correct:0, fact:"Dogue, in San Francisco, is a real tasting-menu restaurant for dogs — genuine covers, genuine prices."},
+{q:"Which product was rejected on Shark Tank as useless, only to later be bought by Amazon for over $1 billion?",
+ opts:["A suitcase with built-in electric scooter wheels",
+       "A Wi-Fi-enabled video doorbell (Doorbot / Ring)",
+       "A magnetic pillow that holds headphones in place",
+       "An umbrella with a live LCD weather forecast on the handle"],
+ correct:1, fact:"Doorbot was turned down by every shark in 2013; it became Ring, bought by Amazon in 2018 for over $1B."},
+{q:"Which unconventional subscription/rental service is a real, operating business?",
+ opts:["Rent-a-Chicken: Renting a portable coop and hens so families can try backyard egg-farming",
+       "CloudRental: Renting rooftop space to store private mini weather balloons",
+       "SockSwap: A shared community pool for daily freshly washed mismatched socks",
+       "FriendTimer: An app where you rent actors to sit with you in restaurant lines"],
+ correct:0, fact:"Rent The Chicken and similar operators deliver hens, a coop and feed each spring across the US and Canada."},
+{q:"Which mystery e-commerce business generated steady, profitable sales for over a decade?",
+ opts:["SomethingStore: You pay $10, and they ship you a completely random item from their inventory",
+       "EmptyBoxCo: Sells luxury gift-wrapped boxes containing literally nothing",
+       "RandomBrick: Sells construction bricks printed with inspirational quotes",
+       "DuplicateStore: An app that only sells items you already own"],
+ correct:0, fact:"SomethingStore has sold mystery $10 packages online since 2007, built entirely on curiosity."}
+];
+
+let state = {
+  name:"",
+  current:0,
+  correctCount:0,
+  answered:false,
+  startTime:0,
+  elapsedTimer:null,
+  finished:false
+};
+
+const card = document.getElementById('card');
+const subcopy = document.getElementById('subcopy');
+
+function fmtTime(ms){
+  const s = Math.floor(ms/1000);
+  const m = Math.floor(s/60);
+  const r = s%60;
+  return m>0 ? (m+"m "+String(r).padStart(2,'0')+"s") : (r+"s");
+}
+
+function renderIntro(){
+  subcopy.textContent = "Ten specimens. Some are hoaxes dressed as companies, one is quietly the truth. Tell fact from fiction — the clock is running.";
+  card.innerHTML = `
+    <span class="field-label">Sign the ledger before entering</span>
+    <input type="text" id="nameInput" placeholder="Your name" maxlength="24" autocomplete="off">
+    <button class="btn" id="startBtn" disabled>Begin the tour</button>
+  `;
+  const input = document.getElementById('nameInput');
+  const btn = document.getElementById('startBtn');
+  input.addEventListener('input', ()=>{ btn.disabled = input.value.trim().length===0; });
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter' && input.value.trim()) startQuiz(input.value.trim()); });
+  btn.addEventListener('click', ()=>{ if(input.value.trim()) startQuiz(input.value.trim()); });
+  input.focus();
+}
+
+function startQuiz(name){
+  state.name = name;
+  state.current = 0;
+  state.correctCount = 0;
+  state.startTime = Date.now();
+  state.finished = false;
+  subcopy.textContent = "Read carefully. Most of these sound fake. One answer per exhibit.";
+  renderQuestion();
+  state.elapsedTimer = setInterval(updateStopwatch, 250);
+}
+
+function updateStopwatch(){
+  const el = document.getElementById('stopwatch');
+  if(el) el.textContent = fmtTime(Date.now()-state.startTime);
+}
+
+function renderQuestion(){
+  state.answered = false;
+  const idx = state.current;
+  const q = QUESTIONS[idx];
+  const letters = ['A','B','C','D'];
+  card.innerHTML = `
+    <div class="specimen-row">
+      <span>Exhibit ${String(idx+1).padStart(2,'0')} / ${QUESTIONS.length}</span>
+      <span class="stopwatch" id="stopwatch">${fmtTime(Date.now()-state.startTime)}</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:${(idx/QUESTIONS.length)*100}%"></div></div>
+    <p class="question-text">${q.q}</p>
+    <div class="options" id="optionsWrap">
+      ${q.opts.map((o,i)=>`<button class="option" data-i="${i}"><span class="opt-letter">${letters[i]}</span><span>${o}</span></button>`).join('')}
+    </div>
+    <div class="stamp-zone" id="stampZone"></div>
+  `;
+  document.querySelectorAll('.option').forEach(btn=>{
+    btn.addEventListener('click', ()=>selectAnswer(parseInt(btn.dataset.i)));
+  });
+}
+
+function selectAnswer(i){
+  if(state.answered) return;
+  state.answered = true;
+  const q = QUESTIONS[state.current];
+  const correct = i === q.correct;
+  if(correct) state.correctCount++;
+
+  document.querySelectorAll('.option').forEach((btn,idx)=>{
+    btn.disabled = true;
+    if(idx === q.correct) btn.classList.add('correct');
+    else if(idx === i) btn.classList.add('wrong');
+    else btn.classList.add('dim');
+  });
+
+  const stampZone = document.getElementById('stampZone');
+  stampZone.innerHTML = `
+    <div>
+      <div class="stamp ${correct?'hit':'miss'}">${correct?'Authentic':'Hoax spotted'}</div>
+      <p class="fact">${q.fact}</p>
+    </div>
+  `;
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn';
+  nextBtn.style.marginTop = '18px';
+  nextBtn.textContent = state.current < QUESTIONS.length-1 ? 'Next exhibit' : 'See final tally';
+  nextBtn.addEventListener('click', advance);
+  card.appendChild(nextBtn);
+}
+
+function advance(){
+  if(state.current < QUESTIONS.length-1){
+    state.current++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+function finishQuiz(){
+  clearInterval(state.elapsedTimer);
+  state.finished = true;
+  const totalMs = Date.now()-state.startTime;
+  const accuracy = Math.round((state.correctCount/QUESTIONS.length)*100);
+
+  card.innerHTML = `
+    <div class="score-hero">
+      <div class="score-num">${state.correctCount}/${QUESTIONS.length}</div>
+      <div class="score-sub">Specimens correctly identified</div>
+      <div class="stat-row">
+        <div><b>${accuracy}%</b>accuracy</div>
+        <div><b>${fmtTime(totalMs)}</b>time on tour</div>
+      </div>
+    </div>
+    <button class="btn" id="restartBtn">Start a new quiz</button>
+  `;
+
+  document.getElementById('restartBtn').addEventListener('click', renderIntro);
+}
+
+renderIntro();
+</script>
+</body>
+</html>
